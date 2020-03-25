@@ -105,7 +105,7 @@ def create_app(test_config=None):
     new_answer = body.get('answer', None)
     new_category = body.get('category', None)
     new_difficulty = body.get('difficulty', None)
-    search=body.get('searchTerm', None)
+    search=body.get('searchTerm')
     if search:
      questions = Question.query.filter(Question.question.ilike(f'%{search}%')).all()
      if questions:
@@ -113,7 +113,7 @@ def create_app(test_config=None):
       return jsonify({
           'success': True,
           'questions': current_questions,
-          'total_questions': len(questions.all())
+          'total_questions': len(questions)
         })
      else:
           abort(404)
@@ -151,9 +151,9 @@ def create_app(test_config=None):
     try:
       body = request.get_json()
       previous_questions = body.get('previous_questions', None)
-      quizCategory = body.get('quiz_category', None)
+      quizCategory = body.get('quiz_category')
       if quizCategory["id"] :
-        selection = Question.query.filter(~Question.id.in_(previous_questions), Question.category == quizCategory).all()
+        selection = Question.query.filter(~Question.id.in_(previous_questions), Question.category == quizCategory["id"]).all()
       else:
         selection = Question.query.filter(~Question.id.in_(previous_questions)).all()
 
