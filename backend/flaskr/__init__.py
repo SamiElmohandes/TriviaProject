@@ -51,12 +51,12 @@ def create_app(test_config=None):
  @app.route('/categories', methods=['GET'])
  def get_categories():
    selection = Category.query.all()
-   categories = [category.format() for category in selection]
+   #categories = [category.format() for category in selection]
 
    return jsonify({
-    'success ': True ,
-    'categories': categories,
-    'no_of_categories' : len(categories)
+    'success': True ,
+    'categories': [category.type for category in selection]
+    #'no_of_categories' : len(categories)
         })
 
   
@@ -64,13 +64,15 @@ def create_app(test_config=None):
  def get_questions():
   selection = Question.query.all()
   questions = paginatee(request, selection)
+  categories = Category.query.all()
   #categories = all_categories().get_json()["categories"]
   return jsonify({
-    'success ': True ,
-    'Questions': questions,
-    'no_of_questions' : len(questions),
-    'Total_no_of_questions' : len(selection),
-    'current_category': None,
+    'success': True ,
+    'questions': questions,
+    #'no_of_questions' : len(questions),
+    'totalQuestions' : len(selection),
+    'categories': [category.type for category in categories],
+    'currentCategory': None,
     #'categories': categories
         })
 
@@ -113,7 +115,8 @@ def create_app(test_config=None):
       return jsonify({
           'success': True,
           'questions': current_questions,
-          'total_questions': len(questions)
+          'totalQuestions': len(questions),
+          'currentCategory': None
         })
      else:
           abort(404)
@@ -133,6 +136,7 @@ def create_app(test_config=None):
  def get_questions_by_category(id):
   selection = Question.query.filter(Question.category==str(id)).all()
   questions = paginatee(request, selection)
+  category= Category.query.filter(Category.id == id).one_or_none()
 
   if len(questions) == 0:
    abort(404)
@@ -141,7 +145,8 @@ def create_app(test_config=None):
    return jsonify({
       'success': True,
       'questions': questions,
-      'total_questions': len(selection)  
+      'totalQuestions': len(selection),
+      'currentCategory': category.type
         })
 
 
