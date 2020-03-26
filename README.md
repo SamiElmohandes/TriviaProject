@@ -97,27 +97,16 @@ The API will return the following error types:
 * Sample Response   
    
            {
-            "categories": {
-               "id": 1,
-      "type": "Science"
-    
-      "id": 2,
-      "type": "Art"
-    
-      "id": 3,
-      "type": "Geography"
-    
-      "id": 4,
-      "type": "History"
-     
-      "id": 5,
-      "type": "Entertainment"
-   
-      "id": 6,
-      "type": "Sports"
-            }, 
-           "no_of_categories": 6,
-           "success ": true 
+            "categories": [
+            "Science",
+            "Art",
+            "Geography",
+            "History",
+            "Entertainment",
+            "Sports"
+              ],
+            "success": true
+
         }
 
 #### GET /questions
@@ -134,10 +123,9 @@ The API will return the following error types:
           "question": "The Taj Mahal is located in which Indian city?"
 
             }, 
-             "Total_no_of_questions": 1,
-             "current_category": null,
-             "no_of_questions": 1,
-             "success ": true
+             "success": true,
+             "totalQuestions": 27
+
              }
              
              
@@ -184,7 +172,7 @@ The API will return the following error types:
        }
        ],
        "success": true,
-       "total_questions": 1
+       "totalQuestions": 1
        }
    
    
@@ -195,6 +183,7 @@ The API will return the following error types:
 * Sample Response
 
       {
+      "currentCategory": "Science"
       "questions": [
         {
       "answer": "The Liver",
@@ -219,8 +208,8 @@ The API will return the following error types:
       }
       ],
       "success": true,
-      "total_questions": 3
-        }
+      "totalQuestions": 3
+       }
         
         
 #### POST QUIZ /quizzes
